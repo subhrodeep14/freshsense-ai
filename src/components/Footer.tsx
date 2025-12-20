@@ -52,7 +52,7 @@ const Footer = () => {
 
         <div className="mt-8 pt-8 border-t border-border text-center">
           <p className="text-sm text-muted-foreground">
-            © 2024 FreshSense. Built with ML & React.
+            © 2025 FreshSense. Built with ML & React.
           </p>
         </div>
       </div>
