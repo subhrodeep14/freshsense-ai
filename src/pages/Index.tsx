@@ -34,126 +34,107 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        {/* Background Elements */}
-        <div className="absolute inset-0 bg-[var(--gradient-hero)]" />
-        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse-soft" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse-soft" style={{ animationDelay: "1s" }} />
+      {/* Hero Section */}
+<section className="relative min-h-screen flex items-center overflow-hidden pt-24">
+  {/* Background */}
+  <div className="absolute inset-0 bg-[var(--gradient-hero)]" />
+  <div className="absolute top-1/3 left-1/4 w-64 h-64 md:w-72 md:h-72 bg-primary/10 rounded-full blur-3xl animate-pulse-soft" />
+  <div className="absolute bottom-1/4 right-1/4 w-72 h-72 md:w-96 md:h-96 bg-accent/10 rounded-full blur-3xl animate-pulse-soft" />
 
-        <div className="container mx-auto px-6 relative z-10">
-          {/* Two-column layout for hero section */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left column - Text content */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-left"
+  <div className="container mx-auto px-6 relative z-10">
+    <div className="grid gap-14 lg:grid-cols-2 items-center">
+      
+      {/* Text */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-center lg:text-left"
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 mx-auto lg:mx-0"
+        >
+          <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+          <span className="text-sm font-medium text-primary">
+            AI-Powered Freshness Detection
+          </span>
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
+        >
+          Detect Freshness <br />
+          <span className="text-gradient">Instantly</span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-base sm:text-lg md:text-xl text-muted-foreground mb-10 max-w-xl mx-auto lg:mx-0"
+        >
+          Upload an image of any fruit or vegetable and let our machine learning
+          model predict its freshness with remarkable accuracy.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+        >
+          <Link to="/predict" className="w-full sm:w-auto">
+            <Button
+              size="lg"
+              className="w-full sm:w-auto px-8 h-12 text-base shadow-soft hover:shadow-glow"
             >
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8"
-              >
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-sm font-medium text-primary">
-                  AI-Powered Freshness Detection
-                </span>
-              </motion.div>
+              Start Predicting
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </Link>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight mb-6"
-              >
-                Detect Freshness
-                <br />
-                <span className="text-gradient">Instantly</span>
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-lg md:text-xl text-muted-foreground mb-10"
-              >
-                Upload an image of any fruit or vegetable and let our machine
-                learning model predict its freshness level with remarkable accuracy.
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="flex flex-col sm:flex-row items-start gap-4"
-              >
-                <Link to="/predict">
-                  <Button size="lg" className="px-8 h-12 text-base shadow-soft hover:shadow-glow transition-shadow">
-                    Start Predicting
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </Link>
-                <Link to="/about">
-                  <Button variant="outline" size="lg" className="px-8 h-12 text-base">
-                    Learn More
-                  </Button>
-                </Link>
-              </motion.div>
-            </motion.div>
-
-            {/* Right column - Image */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
+          <Link to="/about" className="w-full sm:w-auto">
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto px-8 h-12 text-base"
             >
-              {/* Main fruits image */}
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                  alt="Fresh colorful fruits and vegetables"
-                  className="w-full h-auto object-cover rounded-3xl"
-                />
-                {/* Optional overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
-              </div>
-              
-              {/* Optional decorative elements */}
-              <div className="absolute -top-6 -left-6 w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
-              <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-primary/20 rounded-full blur-2xl" />
-            </motion.div>
-          </div>
+              Learn More
+            </Button>
+          </Link>
+        </motion.div>
+      </motion.div>
 
-          {/* Floating Preview - Hidden on large screens */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-16 max-w-3xl mx-auto lg:hidden"
-          >
-            <div className="glass rounded-2xl p-6 shadow-card">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-3 h-3 rounded-full bg-destructive/60" />
-                <div className="w-3 h-3 rounded-full bg-accent/60" />
-                <div className="w-3 h-3 rounded-full bg-primary/60" />
-              </div>
-              <div className="aspect-video bg-gradient-to-br from-secondary to-muted rounded-xl flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary/10 flex items-center justify-center animate-float">
-                    <Scan className="w-8 h-8 text-primary" />
-                  </div>
-                  <p className="text-muted-foreground">
-                    Drop your image here to analyze
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+      {/* Image */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="relative max-w-lg mx-auto lg:max-w-none"
+      >
+        <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+          <img
+            src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=1200&q=80"
+            alt="Fresh fruits and vegetables"
+            className="w-full h-auto object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
         </div>
-      </section>
+
+        {/* Decorative blobs */}
+        <div className="absolute -top-6 -left-6 w-28 h-28 md:w-32 md:h-32 bg-accent/20 rounded-full blur-2xl" />
+        <div className="absolute -bottom-6 -right-6 w-32 h-32 md:w-40 md:h-40 bg-primary/20 rounded-full blur-2xl" />
+      </motion.div>
+    </div>
+  </div>
+</section>
+
 
       {/* Features Section */}
       <section className="py-24 bg-card/50">
