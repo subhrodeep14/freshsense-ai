@@ -9,6 +9,7 @@ const Predict = () => {
   const [fileName, setFileName] = useState<string>("");
   const [isDragging, setIsDragging] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [result, setResult] = useState<{
     status: "fresh" | "spoiled";
     confidence: number;
@@ -48,49 +49,79 @@ const Predict = () => {
     }
   }, []);
 
-  const processFile = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setImage(e.target?.result as string);
-      setFileName(file.name);
-      setResult(null);
-    };
-    reader.readAsDataURL(file);
+ const processFile = (file: File) => {
+  setSelectedFile(file);
+
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+    setImage(e.target?.result as string);
+    setFileName(file.name);
+    setResult(null);
   };
+
+  reader.readAsDataURL(file);
+};
 
   const clearImage = () => {
-    setImage(null);
-    setFileName("");
-    setResult(null);
-  };
+  setImage(null);
+  setFileName("");
+  setSelectedFile(null);
+  setResult(null);
+};
 
   const handlePredict = async () => {
-    if (!image) return;
+  if (!selectedFile) {
+    toast({
+      title: "No Image Selected",
+      description: "Please upload an image first.",
+      variant: "destructive",
+    });
+    return;
+  }
 
-    setIsAnalyzing(true);
-    setResult(null);
+  setIsAnalyzing(true);
+  setResult(null);
 
-    // Simulate API call - Replace this with actual API call to your Python backend
-    // Example: const response = await fetch('YOUR_API_URL/predict', { method: 'POST', body: formData });
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+  try {
+    const formData = new FormData();
+    formData.append("image", selectedFile);
 
-    // Mock result - Replace with actual API response
-    const mockResults = [
-      { status: "fresh" as const, confidence: 94, label: "Fresh Apple" },
-      { status: "fresh" as const, confidence: 89, label: "Fresh Banana" },
-      { status: "spoiled" as const, confidence: 87, label: "Spoiled Orange" },
-      { status: "fresh" as const, confidence: 92, label: "Fresh Tomato" },
-    ];
-    const randomResult = mockResults[Math.floor(Math.random() * mockResults.length)];
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/predict`, {
+  method: "POST",
+  body: formData,
+});
 
-    setResult(randomResult);
-    setIsAnalyzing(false);
+    if (!response.ok) {
+      throw new Error("Prediction failed");
+    }
+const data = await response.json();
+
+console.log(data);
+
+setResult({
+  status: data.status.toLowerCase() === "fresh" ? "fresh" : "spoiled",
+  label: `${data.status} ${data.fruit}`,
+  confidence: data.confidence,
+});
+
+toast({
+  title: "Prediction Complete",
+  description: `${data.status} ${data.fruit}`,
+});
+
+  } catch (error) {
+    console.error(error);
 
     toast({
-      title: "Analysis Complete",
-      description: `Detected: ${randomResult.label}`,
+      title: "Prediction Failed",
+      description: "Could not connect to the backend.",
+      variant: "destructive",
     });
-  };
+  } finally {
+    setIsAnalyzing(false);
+  }
+};
 
   return (
     <div className="min-h-screen pt-24 pb-16">
@@ -293,13 +324,13 @@ const Predict = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-8 p-4 rounded-xl bg-secondary/50 border border-border"
+            className="mt-8 p-0 rounded-xl bg-secondary/50 border border-border"
           >
-            <p className="text-sm text-muted-foreground text-center">
+            {/* <p className="text-sm text-muted-foreground text-center">
               <strong className="text-foreground">Note:</strong> This is a demo
               interface. Connect your Python ML backend API to enable real
               predictions.
-            </p>
+            </p> */}
           </motion.div>
         </motion.div>
       </div>
